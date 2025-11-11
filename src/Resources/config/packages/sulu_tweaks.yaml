@@ -1,0 +1,11 @@
+# config/packages/sulu_tweaks.yaml
+# User configuration example
+
+sulu_tweaks:
+    publish_state_indicator:
+        # Disable offset for single-language projects
+        enable_offset: false
+
+        # Or adjust width if GhostIndicator has different size
+        # enable_offset: true
+        # offset_width: 28

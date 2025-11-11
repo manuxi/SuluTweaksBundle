@@ -1,0 +1,47 @@
+@import 'sulu-admin-bundle/containers/Application/colors.scss';
+
+td[class*="cell--"] {
+    height: 50px;
+}
+
+div[class*="publish-indicator--"] {
+    display: none !important;
+}
+
+.state-indicator {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.with-offset {
+    margin-left: var(--offset-width, 28px);
+}
+
+.state-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    border: 2px solid $white;
+}
+
+.state-indicator .state-dot:only-child {
+    margin-right: 16px;
+}
+
+.state-indicator .state-dot:last-child:not(:only-child) {
+    margin-right: 8px;
+}
+
+.published {
+    background-color: $mantis;
+}
+
+.unpublished {
+    background-color: $gold;
+}
+
+.state-indicator .state-dot + .state-dot {
+    margin-left: -10px;
+}

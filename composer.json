@@ -1,14 +1,14 @@
 {
-    "name": "manuxi/sulu-bulk-actions-bundle",
-    "description": "Bulk Actions for Sulu bundles.",
+    "name": "manuxi/sulu-tweaks-bundle",
+    "description": "Tweaks for Sulu.",
     "type": "symfony-bundle",
-    "homepage": "https://github.com/manuxi/SuluBulkActionsBundle",
+    "homepage": "https://github.com/manuxi/SuluTweaksBundle",
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "doctrine/doctrine-bundle": "^2.13",
         "phpcr/phpcr-migrations-bundle": "^1.6",
-        "sulu/sulu": "^2.5",
+        "sulu/sulu": "^2.6",
         "symfony/intl": "^6.2 | ^7.0",
         "symfony/translation": "^6.2 | ^7.0"
     },
@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Manuxi\\SuluBulkActionsBundle\\": "src/"
+            "Manuxi\\SuluTweaksBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Manuxi\\SuluBulkActionsBundle\\Tests\\": "tests/"
+            "Manuxi\\SuluTweaksBundle\\Tests\\": "tests/"
         }
     },
     "scripts": {
