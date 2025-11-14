@@ -9,7 +9,7 @@ Please feel comfortable submitting feature requests.
 
 This bundle is still in development. Use at own risk 🤞🏻
 
-### Lists: Publish dots
+## Lists: Publish dots
 
 I don't like stairs in lists, so I created another listTransformer. For me it's better scannable now. 
 
@@ -34,10 +34,9 @@ Add the resources to your assets/admin/package.json
     "sulu-tweaks-bundle": "../../vendor/manuxi/sulu-tweaks-bundle/src/Resources/"
 }
 ```
-...then add the components to the assets/admin/app.js
+...then import the bundle in the assets/admin/app.js
 ```javascript
-import {PublishStateFieldTransformer} from 'sulu-tweaks-bundle/js';
-listFieldTransformerRegistry.add('publish_state_indicator', new PublishStateFieldTransformer());
+import 'sulu-tweaks-bundle';
 ```
 
 Rebuild admin sources:
@@ -60,4 +59,25 @@ Then add the publish_state_indicator to your list(s) in project/bundle
 
 (I made also sure that this row is at the beginning of the list)
 
+## ‍🧶 Configuration
+
+As you can see in the screenshot above the dots are also in line when the ghost indicator is visible.
+
+To archive this an offset is set (default 28px).
+
+It is possible to enable and set the offset via configuration:
+
+```yaml
+# config/packages/sulu_tweaks.yaml
+# User configuration example
+
+sulu_tweaks:
+    publish_state_indicator:
+        # Disable offset for single-language projects
+        enable_offset: false
+
+        # Or adjust width if GhostIndicator has different size
+        # enable_offset: true
+        # offset_width: 28    
+```
 

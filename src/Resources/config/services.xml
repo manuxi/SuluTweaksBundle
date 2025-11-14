@@ -5,6 +5,12 @@
                                https://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-
+        <service id="manuxi_sulu_tweaks.admin" class="Manuxi\SuluTweaksBundle\Admin\TweaksAdmin">
+            <argument type="service" id="sulu_admin.view_builder_factory"/>
+            <argument>%sulu_tweaks.publish_state_indicator.enable_offset%</argument>
+            <argument>%sulu_tweaks.publish_state_indicator.offset_width%</argument>
+            <tag name="sulu.admin"/>
+            <tag name="sulu.context" context="admin"/>
+        </service>
     </services>
 </container>

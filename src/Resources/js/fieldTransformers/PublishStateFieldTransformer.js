@@ -6,13 +6,12 @@ import publishStateFieldTransformerStyles from './publishStateFieldTransformer.s
 import type {Node} from 'react';
 
 class PublishStateFieldTransformer {
-    static getConfig() {
-        // Try to read from a global config (set by Sulu's prepend)
-        // Or use defaults
-        return {
-            enableOffset: true,
-            offsetWidth: 28
-        };
+    enableOffset: boolean;
+    offsetWidth: number;
+
+    constructor(enableOffset: boolean = true, offsetWidth: number = 28) {
+        this.enableOffset = enableOffset;
+        this.offsetWidth = offsetWidth;
     }
     transform(value: *, parameters: {[string]: any}, context: Object): Node {
         const mobxValues = context?.$mobx?.values;
@@ -22,7 +21,6 @@ class PublishStateFieldTransformer {
         const hasGhostLocale = !!mobxValues?.ghostLocale?.value;
 
         const styles = publishStateFieldTransformerStyles;
-        const config = PublishStateFieldTransformer.getConfig();
 
         let labelKey = 'sulu_tweaks.not_published';
         if (isDraft) {
@@ -32,13 +30,12 @@ class PublishStateFieldTransformer {
         }
         const label = translate(labelKey);
 
-        const needsOffset = config.enableOffset && !hasGhostLocale;
+        const needsOffset = this.enableOffset && !hasGhostLocale;
         const containerClass = needsOffset
             ? `${styles.stateIndicator} ${styles.withOffset}`
             : styles.stateIndicator;
-
         const containerStyle = needsOffset ? {
-            '--offset-width': `${config.offsetWidth}px`
+            '--offset-width': `${this.offsetWidth}px`
         } : undefined;
 
         if (isDraft) {

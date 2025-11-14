@@ -34,17 +34,6 @@ class SuluTweaksExtension extends Extension implements PrependExtensionInterface
 
     public function prepend(ContainerBuilder $container): void
     {
-/*        if ($container->hasExtension('sulu_admin')) {
-            $container->prependExtensionConfig('sulu_admin', [
-                'lists' => [
-                    'sulu_tweaks_publish_indicator_config' => [
-                        'enable_offset' => '%sulu_tweaks.publish_state_indicator.enable_offset%',
-                        'offset_width' => '%sulu_tweaks.publish_state_indicator.offset_width%',
-                    ],
-                ],
-            ]);
-        }*/
-
         if ($container->hasExtension('framework')) {
             $container->prependExtensionConfig('framework', [
                 'translator' => [
