@@ -2,6 +2,7 @@
 import {initializer} from 'sulu-admin-bundle/services';
 import listFieldTransformerRegistry from 'sulu-admin-bundle/containers/List/registries/listFieldTransformerRegistry';
 import PublishStateFieldTransformer from './FieldTransformers/PublishStateFieldTransformer';
+import StarRatingList from './FieldTransformers/StarRatingList';
 
 initializer.addUpdateConfigHook('sulu_tweaks', (config: Object, initialized: boolean) => {
     if (initialized) {
@@ -16,6 +17,7 @@ initializer.addUpdateConfigHook('sulu_tweaks', (config: Object, initialized: boo
     );
 
     listFieldTransformerRegistry.add('publish_state_indicator', transformer);
+    listFieldTransformerRegistry.add('star_rating', new StarRatingList());
 });
 
-export {PublishStateFieldTransformer};
+export {PublishStateFieldTransformer, StarRatingList};
