@@ -7,8 +7,7 @@
     "require": {
         "php": "^8.2",
         "doctrine/doctrine-bundle": "^2.13",
-        "phpcr/phpcr-migrations-bundle": "^1.6",
-        "sulu/sulu": "^2.6",
+        "sulu/sulu": "^2.6 || ^3.0",
         "symfony/intl": "^6.2 | ^7.0",
         "symfony/translation": "^6.2 | ^7.0"
     },
