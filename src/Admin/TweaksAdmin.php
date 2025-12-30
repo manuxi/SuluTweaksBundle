@@ -11,20 +11,13 @@ class TweaksAdmin extends Admin
 {
     public const SULU_TWEAKS_CONFIG_KEY = 'sulu_tweaks';
 
-    private bool $enableOffset;
-    private int $offsetWidth;
-    private bool $starRatingShowValue;
+    private array $config;
 
     public function __construct(
-        ViewBuilderFactoryInterface $viewBuilderFactory,
-        bool $enableOffset,
-        int $offsetWidth,
-        bool $starRatingShowValue,
+        private ViewBuilderFactoryInterface $viewBuilderFactory,
+        array $config,
     ) {
-        $this->viewBuilderFactory = $viewBuilderFactory;
-        $this->enableOffset = $enableOffset;
-        $this->offsetWidth = $offsetWidth;
-        $this->starRatingShowValue = $starRatingShowValue;
+        $this->config = $config;
     }
 
     public function getConfigKey(): ?string
@@ -34,14 +27,6 @@ class TweaksAdmin extends Admin
 
     public function getConfig(): ?array
     {
-        return [
-            'publish_state_indicator' => [
-                'enable_offset' => $this->enableOffset,
-                'offset_width' => $this->offsetWidth,
-            ],
-            'star_rating' => [
-                'show_value' => $this->starRatingShowValue,
-            ],
-        ];
+        return $this->config;
     }
 }

@@ -1,15 +1,28 @@
 # config/packages/sulu_tweaks.yaml
-# User configuration example
 
 sulu_tweaks:
     publish_state_indicator:
-        # Disable offset for single-language projects
+        # Enable offset when not using ghost_locale_indicator as separate column
         enable_offset: false
-
-        # Or adjust width if GhostIndicator has different size
-        # enable_offset: true
         # offset_width: 28
+
     star_rating:
         # Show numeric value next to stars (e.g. "★★★☆☆ (3/5)")
-        # Set to false to show only stars (tooltip still shows value)
         show_value: true
+        # Maximum rating value (5 or 10) - can be overridden per list via XML param
+        max_value: 5
+
+    percent_bar:
+        # Show percentage value
+        show_value: true
+        # Position: 'inside' (in bar), 'outside' (right of bar), 'none'
+        value_position: outside
+        # Maximum value for calculation - can be overridden per list via XML param
+        # Examples: 100 for 0-100%, 10 for 0-10 scale, 5 for 0-5 scale
+        max_value: 100
+        # Use gradient colors (red->yellow->green) or single color
+        use_gradient: true
+        # Single color when use_gradient is false
+        color: '#52b6ca'
+        # Animate bar on page load
+        animate: true

@@ -4,11 +4,11 @@
 ![GitHub Tag](https://img.shields.io/github/v/tag/manuxi/SuluTweaksBundle)
 [![Sulu Version](https://img.shields.io/badge/Sulu->=2.6-blue)](https://sulu.io/)
 ![Supports Sulu 2.6 or later](https://img.shields.io/badge/%20Sulu->=3.0-0088cc?color=00b2df)
-[![PHP Version](https://img.shields.io/badge/PHP-%5E8.1-purple)](https://php.net/)
+[![PHP Version](https://img.shields.io/badge/PHP-%5E8.2-purple)](https://php.net/)
 
 **Deutsche Version** | [English Version](README.md)
 
-Dieses Bundle habe ich erstellt, um einige Aspekte der Listendarstellung von Sulu anzupassen.
+Dieses Bundle wurde erstellt, um einige Aspekte der Listendarstellung von Sulu anzupassen.
 
 Feature-Requests sind jederzeit willkommen.
 
@@ -20,7 +20,7 @@ Dieses Bundle funktioniert für Sulu 2.6 (wahrscheinlich auch früher) und 3.0. 
 
 ### 🔴 Publish State Indicator
 
-Ich mag keine Treppeneffekte, und die Standard-Darstellung hat eben diese produziert. 
+Treppeneffekte in Listen sind unschön, und die Standard-Darstellung produziert eben diese.
 
 Dieses Bundle räumt damit auf: Das enthaltene SCSS blendet die aktuellen Publish-Indikatoren und Ghost-Locale aus und fügt neue in eigenen Spalten hinzu. Dabei hat der PublishIndicator bei einem publizierten Element auch einen grünen Punkt.
 
@@ -34,7 +34,7 @@ Dieses Bundle räumt damit auf: Das enthaltene SCSS blendet die aktuellen Publis
 
 ### 🌐 Ghost Locale Indicator
 
-Sulus eingebauter Ghost-Locale-Indikator (zeigt die Fallback-Sprache) wird automatisch zu Zellen hinzugefügt und kann nicht verschoben werden. Dieses Bundle bietet eine separate Spalte für die Ghost-Locale, sie beliebig in Listen platziert werden kann.
+Sulus eingebauter Ghost-Locale-Indikator (zeigt die Fallback-Sprache) wird automatisch zu Zellen hinzugefügt und kann nicht verschoben werden. Dieses Bundle bietet eine separate Spalte für die Ghost-Locale, die beliebig in Listen platziert werden kann.
 
 Das Styling entspricht dem Original-Design von Sulu.
 
@@ -53,6 +53,23 @@ Der numerische Wert wird beim Hovern im Tooltip angezeigt. Optional kann der Wer
 
 ![Star Rating](docs/img/star-rating.de.png)
 
+### 📊 Percent Bar
+
+Zeigt Werte als farbigen Fortschrittsbalken an. Die Farbe wechselt fließend von Rot (0%) über Orange, Gelb zu Grün (100%).
+
+| Prozent | Farbe     |
+|---------|-----------|
+| 0-25%   | 🔴 Rot    |
+| 25-50%  | 🟠 Orange |
+| 50-75%  | 🟡 Gelb   |
+| 75-100% | 🟢 Grün   |
+
+**Features:**
+- **max_value**: Beliebige Skalen (0-100, 0-10, 0-5, etc.) - global oder per XML-Parameter
+- **value_position**: Wert im Balken (`inside`), rechts daneben (`outside`) oder versteckt (`none`)
+- **use_gradient**: Farbverlauf oder einzelne Farbe
+- **animate**: CSS-Animation beim Laden
+
 ---
 
 ## 👩🏻‍🏭 Installation
@@ -65,7 +82,7 @@ composer require manuxi/sulu-tweaks-bundle
 
 ### Schritt 2: Admin-Assets registrieren
 
-Füge die Ressourcen zu deiner `assets/admin/package.json` hinzu:
+In `assets/admin/package.json` hinzufügen:
 
 ```json
 {
@@ -77,7 +94,7 @@ Füge die Ressourcen zu deiner `assets/admin/package.json` hinzu:
 
 ### Schritt 3: Bundle importieren
 
-Importiere das Bundle in `assets/admin/app.js`:
+In `assets/admin/app.js` importieren:
 
 ```javascript
 import 'sulu-tweaks-bundle';
@@ -95,7 +112,7 @@ npm run build
 
 ## 🔧 Wie es funktioniert
 
-Wenn du das Bundle über `import 'sulu-tweaks-bundle';` importierst, passiert automatisch folgendes:
+Beim Import des Bundles über `import 'sulu-tweaks-bundle';` passiert automatisch folgendes:
 
 1. **Configuration Hook**: Das Bundle registriert einen Update-Config-Hook für `sulu_tweaks`
 2. **Transformer-Registrierung**: Alle List-Field-Transformer werden in Sulus `listFieldTransformerRegistry` registriert
@@ -108,8 +125,9 @@ Wenn du das Bundle über `import 'sulu-tweaks-bundle';` importierst, passiert au
 | `PublishStateFieldTransformer` | `publish_state_indicator` | Farbige Punkte für Veröffentlichungsstatus |
 | `GhostLocaleFieldTransformer`  | `ghost_locale_indicator`  | Separate Spalte für Fallback-Sprache       |
 | `StarRatingFieldTransformer`   | `star_rating`             | Sternebewertungs-Anzeige                   |
+| `PercentBarFieldTransformer`   | `percent_bar`             | Farbiger Prozent-Balken                    |
 
-Du musst nur die Transformer, die du verwenden möchtest, zu deinen Listen-XML-Konfigurationen hinzufügen.
+Es müssen nur die Transformer, die verwendet werden sollen, zu den Listen-XML-Konfigurationen hinzugefügt werden.
 
 ---
 
@@ -117,7 +135,7 @@ Du musst nur die Transformer, die du verwenden möchtest, zu deinen Listen-XML-K
 
 ### Publish State Indicator
 
-Füge zu deiner Listen-XML hinzu (z.B. `config/lists/events.xml`):
+In der Listen-XML hinzufügen (z.B. `config/lists/events.xml`):
 
 ```xml
 <property name="publishedState" translation="sulu_tweaks.published" visibility="always">
@@ -129,11 +147,11 @@ Füge zu deiner Listen-XML hinzu (z.B. `config/lists/events.xml`):
 </property>
 ```
 
-**Tipp:** Platziere diese Property am Anfang deiner Liste für bessere Sichtbarkeit.
+**Tipp:** Diese Property am Anfang der Liste platzieren für bessere Sichtbarkeit.
 
 ### Ghost Locale Indicator
 
-Füge zu deiner Listen-XML hinzu:
+In der Listen-XML hinzufügen:
 
 ```xml
 <property name="ghostLocale" translation="sulu_tweaks.ghost_locale" visibility="always">
@@ -143,11 +161,11 @@ Füge zu deiner Listen-XML hinzu:
 </property>
 ```
 
-**Hinweis:** Das Feld `ghostLocale` muss in deinen Listendaten verfügbar sein. Wenn du Sulu 3.0 DimensionContent-Architektur verwendest, wird dieses Feld normalerweise automatisch bereitgestellt.
+**Hinweis:** Das Feld `ghostLocale` muss in den Listendaten verfügbar sein. Bei Sulu 3.0 DimensionContent-Architektur wird dieses Feld normalerweise automatisch bereitgestellt.
 
 ### Star Rating
 
-Füge zu deiner Listen-XML hinzu:
+In der Listen-XML hinzufügen:
 
 ```xml
 <property name="rating" translation="app.rating" visibility="always">
@@ -157,45 +175,117 @@ Füge zu deiner Listen-XML hinzu:
 </property>
 ```
 
-Der Transformer erkennt automatisch die Skala:
-- Werte 0-5: 5-Punkte-Skala mit vollen Sternen
-- Werte 0-10: 10-Punkte-Skala mit halben Sternen
+#### Mit XML-Parametern (überschreibt globale Config):
+
+```xml
+<property name="rating" translation="app.rating" visibility="always">
+    <field-name>rating</field-name>
+
+    <transformer type="star_rating">
+        <params>
+            <param name="max_value" value="10"/>
+            <param name="show_value" value="false"/>
+        </params>
+    </transformer>
+</property>
+```
+
+### Percent Bar
+
+In der Listen-XML hinzufügen:
+
+```xml
+<property name="progress" translation="app.progress" visibility="always">
+    <field-name>progress</field-name>
+
+    <transformer type="percent_bar"/>
+</property>
+```
+
+#### Verschiedene Skalen per XML-Parameter:
+
+```xml
+<!-- 0-10 Skala -->
+<property name="rating" translation="app.rating" visibility="always">
+    <field-name>rating</field-name>
+
+    <transformer type="percent_bar">
+        <params>
+            <param name="max_value" value="10"/>
+        </params>
+    </transformer>
+</property>
+
+<!-- 0-5 Skala mit Wert im Balken -->
+<property name="score" translation="app.score" visibility="always">
+    <field-name>score</field-name>
+
+    <transformer type="percent_bar">
+        <params>
+            <param name="max_value" value="5"/>
+            <param name="value_position" value="inside"/>
+        </params>
+    </transformer>
+</property>
+
+<!-- Einzelne Farbe ohne Animation -->
+<property name="completion" translation="app.completion" visibility="always">
+    <field-name>completion</field-name>
+
+    <transformer type="percent_bar">
+        <params>
+            <param name="use_gradient" value="false"/>
+            <param name="color" value="#3498db"/>
+            <param name="animate" value="false"/>
+        </params>
+    </transformer>
+</property>
+```
 
 ---
 
 ## 🧶 Konfiguration
 
-Erstelle `config/packages/sulu_tweaks.yaml` in deinem Projekt:
+`config/packages/sulu_tweaks.yaml` im Projekt erstellen:
 
 ```yaml
 sulu_tweaks:
     publish_state_indicator:
-        # Offset deaktivieren für einsprachige Projekte oder bei Verwendung von ghost_locale_indicator
+        # Offset aktivieren wenn ghost_locale_indicator nicht als separate Spalte verwendet wird
         enable_offset: false
-
-        # Oder Breite anpassen, wenn GhostIndicator andere Größe hat
-        # enable_offset: true
         # offset_width: 28
 
     star_rating:
         # Numerischen Wert neben Sternen anzeigen (z.B. "★★★☆☆ (3/5)")
-        # Auf false setzen, um nur Sterne anzuzeigen (Tooltip zeigt weiterhin den Wert)
         show_value: true
+        # Maximaler Bewertungswert (5 oder 10) - per XML-Parameter überschreibbar
+        max_value: 5
+
+    percent_bar:
+        # Prozentwert anzeigen
+        show_value: true
+        # Position: 'inside' (im Balken), 'outside' (rechts), 'none' (versteckt)
+        value_position: outside
+        # Maximalwert für Berechnung - per XML-Parameter überschreibbar
+        # Beispiele: 100 für 0-100%, 10 für 0-10 Skala, 5 für 0-5 Skala
+        max_value: 100
+        # Farbverlauf (rot→gelb→grün) oder einzelne Farbe
+        use_gradient: true
+        # Einzelne Farbe wenn use_gradient: false
+        color: '#52b6ca'
+        # Balken beim Laden animieren
+        animate: true
 ```
 
-### Publish State Indicator Offset
+### Konfiguration vs. XML-Parameter
 
-Falls die hier enthaltenen GhostLocale nicht benutzt werden, muss vor den Publish-Indikatoren Platz geschafft werden.
+| Option    | Global (YAML)    | Per Liste (XML)         |
+|-----------|------------------|-------------------------|
+| Gilt für  | Alle Listen      | Einzelne Property       |
+| Priorität | Niedriger        | Höher (überschreibt)    |
+| Anwendung | Projekt-Defaults | Spezielle Anforderungen |
 
-Um dies zu erreichen, wird ein Offset gesetzt (Standard 28px).
-
-**Hinweis:** Wenn der `ghost_locale_indicator`-Transformer als separate Spalte verwendet wird, wird kein Offset benötigt und kann deaktiviert werden.
-
-### Star Rating Wertanzeige
-
-Standardmäßig wird der numerische Wert neben den Sternen angezeigt: `★★★☆☆ (3/5)`
-
-Setze `show_value: false` um ihn auszublenden. Der Tooltip bei Mouseover zeigt den Wert als Title an.
+**Beispiel:** Global `max_value: 100`, aber eine Liste braucht `max_value: 10` → per XML-Parameter überschreiben.
 
 ---
 
@@ -238,13 +328,15 @@ SuluTweaksBundle/
 │   │   │   ├── packages/sulu_tweaks.yaml
 │   │   │   └── services.xml
 │   │   ├── js/
-│   │   │   ├── FieldTransformers/
+│   │   │   ├── fieldTransformers/
 │   │   │   │   ├── PublishStateFieldTransformer.js
 │   │   │   │   ├── PublishStateFieldTransformer.scss
 │   │   │   │   ├── GhostLocaleFieldTransformer.js
 │   │   │   │   ├── GhostLocaleFieldTransformer.scss
 │   │   │   │   ├── StarRatingFieldTransformer.js
-│   │   │   │   └── StarRatingFieldTransformer.scss
+│   │   │   │   ├── StarRatingFieldTransformer.scss
+│   │   │   │   ├── PercentBarFieldTransformer.js
+│   │   │   │   └── PercentBarFieldTransformer.scss
 │   │   │   └── index.js
 │   │   ├── translations/
 │   │   │   ├── admin.de.yaml
@@ -258,7 +350,7 @@ SuluTweaksBundle/
 
 ## 🤝 Mitwirken
 
-Beiträge sind willkommen! Du kannst gerne einen Pull Request einreichen.
+Beiträge sind willkommen! Pull Requests können gerne eingereicht werden.
 
 ---
 

@@ -1,61 +1,49 @@
 // @flow
 import React from 'react';
-import {toJS} from 'mobx';
 import {translate} from 'sulu-admin-bundle/utils';
-import publishStateFieldTransformerStyles from './publishStateFieldTransformer.scss';
+import publishStateFieldTransformerStyles from './PublishStateFieldTransformer.scss';
 import type {Node} from 'react';
 
 class PublishStateFieldTransformer {
-    enableOffset: boolean;
-    offsetWidth: number;
+    config: Object;
 
-    constructor(enableOffset: boolean = true, offsetWidth: number = 28) {
-        this.enableOffset = enableOffset;
-        this.offsetWidth = offsetWidth;
+    constructor(config: Object = {}) {
+        this.config = {
+            enable_offset: false,
+            offset_width: 28,
+            ...config,
+        };
     }
 
     transform(value: *, parameters: {[string]: any}, context: Object): Node {
-        const mobxValues = context?.$mobx?.values;
-        console.log('12. mobxValues:', mobxValues);
-
-        if (mobxValues) {
-            console.log('13. mobxValues keys:', Object.keys(mobxValues));
-            for (const key of Object.keys(mobxValues)) {
-                console.log(`    ${key}:`, mobxValues[key]?.value);
-            }
-        }
-
-        // Try to get values from context directly (not via $mobx)
-        const directPublishedState = context?.publishedState;
-        const directLivePublished = context?.livePublished;
-        const directWorkflowPlace = context?.workflowPlace;
-
         const styles = publishStateFieldTransformerStyles;
+        const mobxValues = context?.$mobx?.values;
 
-        // Determine draft status from multiple sources
-        // Draft = has been published (livePublished exists) but current state is not published
-        const publishedState = mobxValues?.publishedState?.value ?? directPublishedState ?? value;
-        const livePublished = mobxValues?.livePublished?.value ?? directLivePublished;
-        const workflowPlace = mobxValues?.workflowPlace?.value ?? directWorkflowPlace;
+        // Get values from context
+        const publishedState = mobxValues?.publishedState?.value ?? context?.publishedState ?? value;
+        const livePublished = mobxValues?.livePublished?.value ?? context?.livePublished;
+        const workflowPlace = mobxValues?.workflowPlace?.value ?? context?.workflowPlace;
         const hasGhostLocale = !!(mobxValues?.ghostLocale?.value ?? context?.ghostLocale);
 
-        // isDraft: published before (livePublished exists) but publishedState is false/draft
-        const isDraft = (livePublished && (publishedState === false || publishedState === 'draft' || workflowPlace === 'draft'));
+        // Determine status
+        const isPublished = publishedState === true || publishedState === 'published' || workflowPlace === 'published';
+        const isDraft = livePublished && (publishedState === false || publishedState === 'draft' || workflowPlace === 'draft');
 
         let labelKey = 'sulu_tweaks.not_published';
         if (isDraft) {
             labelKey = 'sulu_tweaks.draft';
-        } else if (publishedState === true || publishedState === 'published' || workflowPlace === 'published') {
+        } else if (isPublished) {
             labelKey = 'sulu_tweaks.published';
         }
         const label = translate(labelKey);
 
-        const needsOffset = this.enableOffset && !hasGhostLocale;
+        // Offset handling
+        const needsOffset = this.config.enable_offset && !hasGhostLocale;
         const containerClass = needsOffset
             ? `${styles.stateIndicator} ${styles.withOffset}`
             : styles.stateIndicator;
         const containerStyle = needsOffset ? {
-            '--offset-width': `${this.offsetWidth}px`
+            '--offset-width': `${this.config.offset_width}px`
         } : undefined;
 
         if (isDraft) {
@@ -67,7 +55,6 @@ class PublishStateFieldTransformer {
             );
         }
 
-        const isPublished = publishedState === true || publishedState === 'published' || workflowPlace === 'published';
         const colorClass = isPublished ? styles.published : styles.unpublished;
 
         return (

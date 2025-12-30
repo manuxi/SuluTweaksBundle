@@ -15,19 +15,7 @@ class SuluTweaksExtension extends Extension implements PrependExtensionInterface
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        // Store config as container parameters
-        $container->setParameter(
-            'sulu_tweaks.publish_state_indicator.enable_offset',
-            $config['publish_state_indicator']['enable_offset']
-        );
-        $container->setParameter(
-            'sulu_tweaks.publish_state_indicator.offset_width',
-            $config['publish_state_indicator']['offset_width']
-        );
-        $container->setParameter(
-            'sulu_tweaks.star_rating.show_value',
-            $config['star_rating']['show_value']
-        );
+        $container->setParameter('sulu_tweaks.config', $config);
 
         $loader = new XmlFileLoader(
             $container,

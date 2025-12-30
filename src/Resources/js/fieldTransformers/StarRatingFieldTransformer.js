@@ -4,18 +4,45 @@ import starRatingFieldTransformerStyles from './StarRatingFieldTransformer.scss'
 import type {Node} from 'react';
 
 class StarRatingFieldTransformer {
-    showValue: boolean;
+    config: Object;
 
-    constructor(showValue: boolean = true) {
-        this.showValue = showValue;
+    constructor(config: Object = {}) {
+        this.config = {
+            show_value: true,
+            max_value: 5,
+            ...config,
+        };
+    }
+
+    getParam(parameters: ?Object, name: string, defaultValue: any): any {
+        if (!parameters || !parameters[name]) {
+            return defaultValue;
+        }
+
+        // Sulu can pass params as {name: {value: x}} or {name: x}
+        const param = parameters[name];
+        if (typeof param === 'object' && param !== null && 'value' in param) {
+            return param.value;
+        }
+
+        return param;
     }
 
     transform(value: *, parameters: {[string]: any}, context: Object): Node {
         const rating = value ? parseInt(String(value), 10) : 0;
         const styles = starRatingFieldTransformerStyles || {};
 
-        // Detect scale: if rating > 5, assume 10-point scale
-        const maxValue = rating > 5 ? 10 : 5;
+        // Get parameters with fallback to config
+        const maxValueParam = this.getParam(parameters, 'max_value', null);
+        const maxValue = maxValueParam !== null
+            ? parseInt(String(maxValueParam), 10)
+            : this.config.max_value;
+
+        const showValueParam = this.getParam(parameters, 'show_value', null);
+        const showValue = showValueParam !== null
+            ? (showValueParam === true || showValueParam === 'true')
+            : this.config.show_value;
+
         const displayStars = 5;
         const stars = [];
         const title = `${rating}/${maxValue}`;
@@ -43,7 +70,7 @@ class StarRatingFieldTransformer {
                 );
             }
         } else {
-            // 5-point scale: simple full stars
+            // 5-point scale (or other): simple full stars
             for (let i = 1; i <= displayStars; i++) {
                 const isFilled = i <= rating;
                 stars.push(
@@ -60,7 +87,7 @@ class StarRatingFieldTransformer {
         return (
             <span className={styles.container} title={title}>
                 {stars}
-                {this.showValue && (
+                {showValue && (
                     <span className={styles.value}>({title})</span>
                 )}
             </span>

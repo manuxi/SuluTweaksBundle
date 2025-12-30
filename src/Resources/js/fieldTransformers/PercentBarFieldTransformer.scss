@@ -1,0 +1,82 @@
+@import 'sulu-admin-bundle/containers/Application/colors.scss';
+
+$color-0: $persianRed;
+$color-25: #e67a22;
+$color-50: $gold;
+$color-75: #9ed36a;
+$color-100: $mantis;
+
+@keyframes fillBar {
+    from {
+        width: 0;
+    }
+}
+
+.container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 100px;
+    width: 100%;
+    max-width: 200px;
+}
+
+.barBackground {
+    flex: 1;
+    height: 16px;
+    background-color: $mercury;
+    border-radius: 4px;
+    overflow: hidden;
+    min-width: 60px;
+    position: relative;
+}
+
+.barFill {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    transition: width 0.3s ease;
+}
+
+.animated .barFill {
+    animation: fillBar 0.8s ease-out;
+}
+
+.color0 {
+    background-color: $color-0;
+}
+
+.color25 {
+    background-color: $color-25;
+}
+
+.color50 {
+    background-color: $color-50;
+}
+
+.color75 {
+    background-color: $color-75;
+}
+
+.color100 {
+    background-color: $color-100;
+}
+
+.valueInside {
+    font-size: 11px;
+    font-weight: 600;
+    padding-right: 4px;
+    white-space: nowrap;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.valueOutside {
+    font-size: 12px;
+    color: $dustyGray;
+    min-width: 36px;
+    text-align: right;
+    white-space: nowrap;
+}

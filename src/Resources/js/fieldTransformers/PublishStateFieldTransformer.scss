@@ -8,16 +8,20 @@ div[class*="publish-indicator--"] {
     display: none !important;
 }
 
-.state-indicator {
+span[class*="ghost-indicator--"] {
+    display: none !important;
+}
+
+.stateIndicator {
     display: inline-block;
     white-space: nowrap;
 }
 
-.with-offset {
+.withOffset {
     margin-left: var(--offset-width, 28px);
 }
 
-.state-dot {
+.stateDot {
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -26,11 +30,11 @@ div[class*="publish-indicator--"] {
     border: 2px solid $white;
 }
 
-.state-indicator .state-dot:only-child {
+.stateIndicator .stateDot:only-child {
     margin-right: 16px;
 }
 
-.state-indicator .state-dot:last-child:not(:only-child) {
+.stateIndicator .stateDot:last-child:not(:only-child) {
     margin-right: 8px;
 }
 
@@ -42,6 +46,6 @@ div[class*="publish-indicator--"] {
     background-color: $gold;
 }
 
-.state-indicator .state-dot + .state-dot {
+.stateIndicator .stateDot + .stateDot {
     margin-left: -10px;
 }
