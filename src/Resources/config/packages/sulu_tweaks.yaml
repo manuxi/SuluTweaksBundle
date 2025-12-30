@@ -20,8 +20,10 @@ sulu_tweaks:
         # Maximum value for calculation - can be overridden per list via XML param
         # Examples: 100 for 0-100%, 10 for 0-10 scale, 5 for 0-5 scale
         max_value: 100
-        # Use gradient colors (red->yellow->green) or single color
+        # Use gradient colors or single color
         use_gradient: true
+        # Gradient mode: 'interpolate' (smooth transition) or 'steps' (color bands)
+        gradient_mode: interpolate
         # Single color when use_gradient is false
         color: '#52b6ca'
         # Animate bar on page load

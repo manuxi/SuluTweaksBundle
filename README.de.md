@@ -8,11 +8,9 @@
 
 **Deutsche Version** | [English Version](README.md)
 
-Dieses Bundle wurde erstellt, um einige Aspekte der Listendarstellung von Sulu anzupassen.
+Dieses Bundle wurde erstellt, um einige Aspekte der Listendarstellung von Sulu anzupassen oder zu erweitern.
 
-Feature-Requests sind jederzeit willkommen.
-
-Dieses Bundle funktioniert für Sulu 2.6 (wahrscheinlich auch früher) und 3.0. Benutzung auf eigene Gefahr 🤞🏻
+Dieses Bundle funktioniert für Sulu 2.6 (wahrscheinlich auch mit früheren Versionen) und 3.0. Benutzung auf eigene Gefahr 🤞🏻
 
 ---
 
@@ -55,20 +53,24 @@ Der numerische Wert wird beim Hovern im Tooltip angezeigt. Optional kann der Wer
 
 ### 📊 Percent Bar
 
-Zeigt Werte als farbigen Fortschrittsbalken an. Die Farbe wechselt fließend von Rot (0%) über Orange, Gelb zu Grün (100%).
+Zeigt Werte als farbigen Fortschrittsbalken an. Die Farbe wechselt von Rot (0%) über Orange, Gelb zu Grün (100%).
 
-| Prozent | Farbe     |
-|---------|-----------|
-| 0-25%   | 🔴 Rot    |
-| 25-50%  | 🟠 Orange |
-| 50-75%  | 🟡 Gelb   |
-| 75-100% | 🟢 Grün   |
+| Prozent | Farbe       |
+|---------|-------------|
+| 0-20%   | 🔴 Rot      |
+| 20-40%  | 🟠 Orange   |
+| 40-60%  | 🟡 Gelb     |
+| 60-80%  | 🟢 Hellgrün |
+| 80-100% | 🟢 Grün     |
 
 **Features:**
 - **max_value**: Beliebige Skalen (0-100, 0-10, 0-5, etc.) - global oder per XML-Parameter
 - **value_position**: Wert im Balken (`inside`), rechts daneben (`outside`) oder versteckt (`none`)
+- **gradient_mode**: Fließender Verlauf (`interpolate`) oder Farbstufen (`steps`)
 - **use_gradient**: Farbverlauf oder einzelne Farbe
 - **animate**: CSS-Animation beim Laden
+
+![Percent Bar](docs/img/percent-bar.png)
 
 ---
 
@@ -215,7 +217,8 @@ In der Listen-XML hinzufügen:
         </params>
     </transformer>
 </property>
-
+```
+```xml
 <!-- 0-5 Skala mit Wert im Balken -->
 <property name="score" translation="app.score" visibility="always">
     <field-name>score</field-name>
@@ -227,7 +230,20 @@ In der Listen-XML hinzufügen:
         </params>
     </transformer>
 </property>
+```
+```xml
+<!-- Farbstufen statt fließendem Verlauf -->
+<property name="progress" translation="app.progress" visibility="always">
+    <field-name>progress</field-name>
 
+    <transformer type="percent_bar">
+        <params>
+            <param name="gradient_mode" value="steps"/>
+        </params>
+    </transformer>
+</property>
+```
+```xml
 <!-- Einzelne Farbe ohne Animation -->
 <property name="completion" translation="app.completion" visibility="always">
     <field-name>completion</field-name>
@@ -269,8 +285,10 @@ sulu_tweaks:
         # Maximalwert für Berechnung - per XML-Parameter überschreibbar
         # Beispiele: 100 für 0-100%, 10 für 0-10 Skala, 5 für 0-5 Skala
         max_value: 100
-        # Farbverlauf (rot→gelb→grün) oder einzelne Farbe
+        # Farbverlauf oder einzelne Farbe
         use_gradient: true
+        # Verlaufsmodus: 'interpolate' (fließend) oder 'steps' (Farbstufen)
+        gradient_mode: interpolate
         # Einzelne Farbe wenn use_gradient: false
         color: '#52b6ca'
         # Balken beim Laden animieren

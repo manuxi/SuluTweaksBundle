@@ -12,6 +12,7 @@ class PercentBarFieldTransformer {
             value_position: 'outside',
             max_value: 100,
             use_gradient: true,
+            gradient_mode: 'interpolate',
             color: '#52b6ca',
             animate: true,
             ...config,
@@ -23,7 +24,6 @@ class PercentBarFieldTransformer {
             return defaultValue;
         }
 
-        // Sulu can pass params as {name: {value: x}} or {name: x}
         const param = parameters[name];
         if (typeof param === 'object' && param !== null && 'value' in param) {
             return param.value;
@@ -32,26 +32,58 @@ class PercentBarFieldTransformer {
         return param;
     }
 
-    getColorClass(percent: number, styles: Object): string {
+    getInterpolatedColor(percent: number): string {
+        const p = Math.max(0, Math.min(100, percent));
+
+        // Vibrant, fully saturated colors
+        const colors = [
+            {p: 0,   r: 255, g: 0,   b: 0},     // Pure red
+            {p: 25,  r: 255, g: 140, b: 0},     // Vibrant orange
+            {p: 50,  r: 255, g: 230, b: 0},     // Bright yellow
+            {p: 75,  r: 128, g: 255, b: 0},     // Lime green
+            {p: 100, r: 0,   g: 200, b: 0},     // Vibrant green
+        ];
+
+        let lower = colors[0];
+        let upper = colors[colors.length - 1];
+
+        for (let i = 0; i < colors.length - 1; i++) {
+            if (p >= colors[i].p && p <= colors[i + 1].p) {
+                lower = colors[i];
+                upper = colors[i + 1];
+                break;
+            }
+        }
+
+        const range = upper.p - lower.p;
+        const t = range > 0 ? (p - lower.p) / range : 0;
+
+        const r = Math.round(lower.r + (upper.r - lower.r) * t);
+        const g = Math.round(lower.g + (upper.g - lower.g) * t);
+        const b = Math.round(lower.b + (upper.b - lower.b) * t);
+
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    getSteppedColor(percent: number): string {
         const p = Math.max(0, Math.min(100, percent));
 
         if (p <= 20) {
-            return styles.color0;
+            return '#ff0000';
         } else if (p <= 40) {
-            return styles.color25;
+            return '#ff8c00';
         } else if (p <= 60) {
-            return styles.color50;
+            return '#ffe600';
         } else if (p <= 80) {
-            return styles.color75;
+            return '#80ff00';
         } else {
-            return styles.color100;
+            return '#00c800';
         }
     }
 
     transform(value: *, parameters: {[string]: any}, context: Object): Node {
         const styles = percentBarFieldTransformerStyles || {};
 
-        // Get parameters with fallback to config
         const maxValueParam = this.getParam(parameters, 'max_value', null);
         const maxValue = maxValueParam !== null
             ? parseFloat(String(maxValueParam))
@@ -69,6 +101,8 @@ class PercentBarFieldTransformer {
             ? (useGradientParam === true || useGradientParam === 'true')
             : this.config.use_gradient;
 
+        const gradientMode = this.getParam(parameters, 'gradient_mode', this.config.gradient_mode);
+
         const singleColor = this.getParam(parameters, 'color', this.config.color);
 
         const animateParam = this.getParam(parameters, 'animate', null);
@@ -76,59 +110,42 @@ class PercentBarFieldTransformer {
             ? (animateParam === true || animateParam === 'true')
             : this.config.animate;
 
-        // Calculate percentage
         const rawValue = value ? parseFloat(String(value)) : 0;
         const percent = Math.max(0, Math.min(100, (rawValue / maxValue) * 100));
         const displayValue = Math.round(percent);
 
-        // Determine color class (only used when useGradient is true)
-        const colorClass = useGradient ? this.getColorClass(percent, styles) : '';
+        let barColor = singleColor;
+        if (useGradient) {
+            barColor = gradientMode === 'steps'
+                ? this.getSteppedColor(percent)
+                : this.getInterpolatedColor(percent);
+        }
 
-        // Title always shows the value
         const title = `${rawValue}/${maxValue} (${displayValue}%)`;
 
-        // Build class names
         const containerClasses = [styles.container];
         if (animate) {
             containerClasses.push(styles.animated);
         }
 
-        // Build bar fill classes
-        const barFillClasses = [styles.barFill];
-        if (useGradient && colorClass) {
-            barFillClasses.push(colorClass);
-        }
-
-        // Determine if value should be shown and where
         const showValueInside = showValue && valuePosition === 'inside';
         const showValueOutside = showValue && valuePosition === 'outside';
-
-        // For inside positioning, determine text color based on percentage
-        // Dark text for yellow (40-60%), white for others
-        const insideTextColor = (percent > 40 && percent <= 60) ? '#333' : '#fff';
-
-        // Bar fill style (only backgroundColor when not using gradient)
-        const barFillStyle: Object = {width: `${percent}%`};
-        if (!useGradient) {
-            barFillStyle.backgroundColor = singleColor;
-        }
 
         return (
             <span className={containerClasses.join(' ')} title={title}>
                 <span className={styles.barBackground}>
                     <span
-                        className={barFillClasses.join(' ')}
-                        style={barFillStyle}
-                    >
-                        {showValueInside && (
-                            <span
-                                className={styles.valueInside}
-                                style={{color: insideTextColor}}
-                            >
-                                {displayValue}%
-                            </span>
-                        )}
-                    </span>
+                        className={styles.barFill}
+                        style={{
+                            width: `${percent}%`,
+                            backgroundColor: barColor,
+                        }}
+                    />
+                    {showValueInside && (
+                        <span className={styles.valueInside}>
+                            {displayValue}%
+                        </span>
+                    )}
                 </span>
                 {showValueOutside && (
                     <span className={styles.valueOutside}>{displayValue}%</span>

@@ -55,20 +55,24 @@ The numeric value is shown in a tooltip on hover. Optionally, the value can also
 
 ### 📊 Percent Bar
 
-Displays values as a colored progress bar. The color transitions smoothly from red (0%) through orange, yellow to green (100%).
+Displays values as a colored progress bar. The color transitions from red (0%) through orange, yellow to green (100%).
 
-| Percent | Color     |
-|---------|-----------|
-| 0-25%   | 🔴 Red    |
-| 25-50%  | 🟠 Orange |
-| 50-75%  | 🟡 Yellow |
-| 75-100% | 🟢 Green  |
+| Percent | Color          |
+|---------|----------------|
+| 0-20%   | 🔴 Red         |
+| 20-40%  | 🟠 Orange      |
+| 40-60%  | 🟡 Yellow      |
+| 60-80%  | 🟢 Light green |
+| 80-100% | 🟢 Green       |
 
 **Features:**
 - **max_value**: Any scale (0-100, 0-10, 0-5, etc.) - globally or per XML parameter
 - **value_position**: Value inside the bar (`inside`), to the right (`outside`) or hidden (`none`)
+- **gradient_mode**: Smooth transition (`interpolate`) or color bands (`steps`)
 - **use_gradient**: Gradient colors or single color
 - **animate**: CSS animation on load
+
+![Percent Bar](docs/img/percent-bar.png)
 
 ---
 
@@ -215,7 +219,8 @@ Add to list XML:
         </params>
     </transformer>
 </property>
-
+```
+```xml
 <!-- 0-5 scale with value inside bar -->
 <property name="score" translation="app.score" visibility="always">
     <field-name>score</field-name>
@@ -227,7 +232,20 @@ Add to list XML:
         </params>
     </transformer>
 </property>
+```
+```xml
+<!-- Color bands instead of smooth transition -->
+<property name="progress" translation="app.progress" visibility="always">
+    <field-name>progress</field-name>
 
+    <transformer type="percent_bar">
+        <params>
+            <param name="gradient_mode" value="steps"/>
+        </params>
+    </transformer>
+</property>
+```
+```xml
 <!-- Single color without animation -->
 <property name="completion" translation="app.completion" visibility="always">
     <field-name>completion</field-name>
@@ -269,8 +287,10 @@ sulu_tweaks:
         # Maximum value for calculation - can be overridden per list via XML param
         # Examples: 100 for 0-100%, 10 for 0-10 scale, 5 for 0-5 scale
         max_value: 100
-        # Use gradient colors (red→yellow→green) or single color
+        # Use gradient colors or single color
         use_gradient: true
+        # Gradient mode: 'interpolate' (smooth) or 'steps' (color bands)
+        gradient_mode: interpolate
         # Single color when use_gradient is false
         color: '#52b6ca'
         # Animate bar on page load
