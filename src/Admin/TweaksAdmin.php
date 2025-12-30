@@ -13,15 +13,18 @@ class TweaksAdmin extends Admin
 
     private bool $enableOffset;
     private int $offsetWidth;
+    private bool $starRatingShowValue;
 
     public function __construct(
         ViewBuilderFactoryInterface $viewBuilderFactory,
         bool $enableOffset,
         int $offsetWidth,
+        bool $starRatingShowValue,
     ) {
         $this->viewBuilderFactory = $viewBuilderFactory;
         $this->enableOffset = $enableOffset;
         $this->offsetWidth = $offsetWidth;
+        $this->starRatingShowValue = $starRatingShowValue;
     }
 
     public function getConfigKey(): ?string
@@ -35,6 +38,9 @@ class TweaksAdmin extends Admin
             'publish_state_indicator' => [
                 'enable_offset' => $this->enableOffset,
                 'offset_width' => $this->offsetWidth,
+            ],
+            'star_rating' => [
+                'show_value' => $this->starRatingShowValue,
             ],
         ];
     }

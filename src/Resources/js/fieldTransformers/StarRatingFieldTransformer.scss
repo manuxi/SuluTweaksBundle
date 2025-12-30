@@ -1,0 +1,27 @@
+@import 'sulu-admin-bundle/containers/Application/colors.scss';
+
+.container {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    cursor: default;
+    font-size: 14px;
+}
+
+.filled {
+    color: $gold;
+}
+
+.half {
+    color: $gold;
+}
+
+.empty {
+    color: $silverChalice;
+}
+
+.value {
+    margin-left: 6px;
+    color: $dustyGray;
+    font-size: 12px;
+}

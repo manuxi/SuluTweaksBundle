@@ -1,31 +1,41 @@
+// @flow
 import React from 'react';
-import starRatingListStyles from './starRatingList.scss';
-console.log('StarRatingList transformer module loaded');
-class StarRatingList {
-    transform(value, parameters, context) {
+import starRatingFieldTransformerStyles from './StarRatingFieldTransformer.scss';
+import type {Node} from 'react';
+
+class StarRatingFieldTransformer {
+    showValue: boolean;
+
+    constructor(showValue: boolean = true) {
+        this.showValue = showValue;
+    }
+
+    transform(value: *, parameters: {[string]: any}, context: Object): Node {
         const rating = value ? parseInt(String(value), 10) : 0;
-        const styles = starRatingListStyles || {};
-        console.log('StarRatingList transform:', { value, rating, styles });
+        const styles = starRatingFieldTransformerStyles || {};
+
         // Detect scale: if rating > 5, assume 10-point scale
         const maxValue = rating > 5 ? 10 : 5;
-        const displayStars = 5; // Always show 5 star symbols
+        const displayStars = 5;
         const stars = [];
+        const title = `${rating}/${maxValue}`;
+
         if (maxValue === 10) {
             // 10-point scale: use half-star increments
             for (let i = 1; i <= displayStars; i++) {
-                const starValue = i * 2; // 2, 4, 6, 8, 10
-                const halfStarValue = starValue - 1; // 1, 3, 5, 7, 9
+                const starValue = i * 2;
+                const halfStarValue = starValue - 1;
                 let starClass = styles.empty;
                 let starChar = '☆';
+
                 if (rating >= starValue) {
-                    // Full star
                     starClass = styles.filled;
                     starChar = '★';
                 } else if (rating >= halfStarValue) {
-                    // Half star
                     starClass = styles.half;
                     starChar = '⯪';
                 }
+
                 stars.push(
                     <span key={i} className={starClass}>
                         {starChar}
@@ -46,12 +56,16 @@ class StarRatingList {
                 );
             }
         }
+
         return (
-            <span className={styles.container}>
+            <span className={styles.container} title={title}>
                 {stars}
-                <span className={styles.value}>({rating}/{maxValue})</span>
+                {this.showValue && (
+                    <span className={styles.value}>({title})</span>
+                )}
             </span>
         );
     }
 }
-export default StarRatingList;
+
+export default StarRatingFieldTransformer;

@@ -24,6 +24,10 @@ class SuluTweaksExtension extends Extension implements PrependExtensionInterface
             'sulu_tweaks.publish_state_indicator.offset_width',
             $config['publish_state_indicator']['offset_width']
         );
+        $container->setParameter(
+            'sulu_tweaks.star_rating.show_value',
+            $config['star_rating']['show_value']
+        );
 
         $loader = new XmlFileLoader(
             $container,

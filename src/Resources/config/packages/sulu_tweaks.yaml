@@ -9,3 +9,7 @@ sulu_tweaks:
         # Or adjust width if GhostIndicator has different size
         # enable_offset: true
         # offset_width: 28
+    star_rating:
+        # Show numeric value next to stars (e.g. "★★★☆☆ (3/5)")
+        # Set to false to show only stars (tooltip still shows value)
+        show_value: true

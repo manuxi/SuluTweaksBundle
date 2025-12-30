@@ -2,3 +2,4 @@ sulu_tweaks:
     draft: "Entwurf"
     published: "Veröffentlicht"
     not_published: "Nicht veröffentlicht"
+    ghost_locale: "Sprache"

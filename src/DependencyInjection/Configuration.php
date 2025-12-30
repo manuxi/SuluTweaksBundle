@@ -29,6 +29,15 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('star_rating')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('show_value')
+                            ->info('Show numeric value next to stars (e.g. "★★★☆☆ (3/5)")')
+                            ->defaultTrue()
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 
