@@ -74,8 +74,10 @@ Zeigt Werte als farbigen Fortschrittsbalken an. Die Farbe wechselt von Rot (0%) 
 - **animate**: CSS-Animation beim Laden
 
 ![Percent Bar](docs/img/percent-bar.interpolate.height.de.png)
+![Percent Bar](docs/img/percent-bar.uni.height.de.png)
 ![Percent Bar](docs/img/percent-bar.interpolate.de.png)
 ![Percent Bar](docs/img/percent-bar.steps.de.png)
+
 ---
 
 ## 👩🏻‍🏭 Installation

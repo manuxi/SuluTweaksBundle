@@ -75,6 +75,7 @@ Displays values as a colored progress bar. The color transitions from red (0%) t
 - **animate**: CSS animation on load
 
 ![Percent Bar](docs/img/percent-bar.interpolate.height.de.png)
+![Percent Bar](docs/img/percent-bar.uni.height.de.png)
 ![Percent Bar](docs/img/percent-bar.interpolate.de.png)
 ![Percent Bar](docs/img/percent-bar.steps.de.png)
 
