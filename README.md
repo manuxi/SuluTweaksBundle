@@ -18,6 +18,8 @@ This bundle works for Sulu 2.6 (probably earlier too) and 3.0. Use at own risk ð
 
 ## Features
 
+![Features](docs/img/features.de.png)
+
 ### ðŸ”´ Publish State Indicator
 
 Stair effects in lists are ugly, and the default display produces exactly those.
@@ -72,6 +74,7 @@ Displays values as a colored progress bar. The color transitions from red (0%) t
 - **use_gradient**: Gradient colors or single color
 - **animate**: CSS animation on load
 
+![Percent Bar](docs/img/percent-bar.interpolate.height.de.png)
 ![Percent Bar](docs/img/percent-bar.interpolate.de.png)
 ![Percent Bar](docs/img/percent-bar.steps.de.png)
 
@@ -285,9 +288,15 @@ sulu_tweaks:
         show_value: true
         # Position: 'inside' (in bar), 'outside' (right), 'none' (hidden)
         value_position: outside
+        # Color of the percentage value (hex)
+        value_color: '#000000'
         # Maximum value for calculation - can be overridden per list via XML param
         # Examples: 100 for 0-100%, 10 for 0-10 scale, 5 for 0-5 scale
         max_value: 100
+        # Height of the bar in pixels
+        # Under 14px: inside value hidden, border-radius: 2px
+        # Under 10px: border-radius: 1px
+        height: 16
         # Use gradient colors or single color
         use_gradient: true
         # Gradient mode: 'interpolate' (smooth) or 'steps' (color bands)

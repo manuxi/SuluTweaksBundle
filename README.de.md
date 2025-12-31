@@ -18,6 +18,7 @@ Dieses Bundle funktioniert für Sulu 2.6 (wahrscheinlich auch mit früheren Vers
 
 ![Features](docs/img/features.de.png)
 
+
 ### 🔴 Publish State Indicator
 
 Treppeneffekte in Listen sind unschön, und die Standard-Darstellung produziert eben diese.
@@ -72,6 +73,7 @@ Zeigt Werte als farbigen Fortschrittsbalken an. Die Farbe wechselt von Rot (0%) 
 - **use_gradient**: Farbverlauf oder einzelne Farbe
 - **animate**: CSS-Animation beim Laden
 
+![Percent Bar](docs/img/percent-bar.interpolate.height.de.png)
 ![Percent Bar](docs/img/percent-bar.interpolate.de.png)
 ![Percent Bar](docs/img/percent-bar.steps.de.png)
 ---
@@ -229,6 +231,7 @@ In der Listen-XML hinzufügen:
         <params>
             <param name="max_value" value="5"/>
             <param name="value_position" value="inside"/>
+            <param name="value_color" value="#fff"/>
         </params>
     </transformer>
 </property>
@@ -240,6 +243,7 @@ In der Listen-XML hinzufügen:
 
     <transformer type="percent_bar">
         <params>
+            <param name="height" value="12"/>
             <param name="gradient_mode" value="steps"/>
         </params>
     </transformer>
@@ -284,9 +288,15 @@ sulu_tweaks:
         show_value: true
         # Position: 'inside' (im Balken), 'outside' (rechts), 'none' (versteckt)
         value_position: outside
+        # Farbe des Prozentwertes (hex)
+        value_color: '#000000'
         # Maximalwert für Berechnung - per XML-Parameter überschreibbar
         # Beispiele: 100 für 0-100%, 10 für 0-10 Skala, 5 für 0-5 Skala
         max_value: 100
+        # Höhe der Bar in Pixeln
+        # Unter 14px: inside Wert versteckt, border-radius: 2px
+        # Unter 10px: border-radius: 1px
+        height: 16
         # Farbverlauf oder einzelne Farbe
         use_gradient: true
         # Verlaufsmodus: 'interpolate' (fließend) oder 'steps' (Farbstufen)

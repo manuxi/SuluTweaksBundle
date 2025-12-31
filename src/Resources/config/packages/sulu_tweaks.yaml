@@ -17,9 +17,14 @@ sulu_tweaks:
         show_value: true
         # Position: 'inside' (in bar), 'outside' (right of bar), 'none'
         value_position: outside
+        # Color of the percentage value (hex)
+        value_color: '#000000'
         # Maximum value for calculation - can be overridden per list via XML param
-        # Examples: 100 for 0-100%, 10 for 0-10 scale, 5 for 0-5 scale
         max_value: 100
+        # Height of the bar in pixels
+        # Under 14px: inside value hidden, border-radius: 2px
+        # Under 10px: border-radius: 1px
+        height: 16
         # Use gradient colors or single color
         use_gradient: true
         # Gradient mode: 'interpolate' (smooth transition) or 'steps' (color bands)

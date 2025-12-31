@@ -17,9 +17,7 @@
 
 .barBackground {
     flex: 1;
-    height: 16px;
     background-color: $mercury;
-    border-radius: 3px;
     overflow: hidden;
     min-width: 60px;
     position: relative;
@@ -27,7 +25,6 @@
 
 .barFill {
     height: 100%;
-    border-radius: 3px;
     background-position: left center;
     display: block;
 }
@@ -39,12 +36,12 @@
 .gradientSmooth {
     background-image: linear-gradient(
                     90deg,
-                    #ff0000 0%,
+                    $persianRed 0%,
                     #ff8c00 20%,
-                    #ffe600 45%,
-                    #ffe600 55%,
+                    $gold 45%,
+                    $gold 55%,
                     #80ff00 80%,
-                    #00c800 100%
+                    $mantis 100%
     );
     background-position: left center;
     background-repeat: no-repeat;
@@ -61,14 +58,12 @@
     justify-content: center;
     font-size: 10px;
     font-weight: 600;
-    color: $black;
     z-index: 1;
     line-height: 1.1;
 }
 
 .valueOutside {
     font-size: 12px;
-    color: $dustyGray;
     min-width: 36px;
     text-align: right;
     white-space: nowrap;

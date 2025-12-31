@@ -10,7 +10,9 @@ class PercentBarFieldTransformer {
         this.config = {
             show_value: true,
             value_position: 'outside',
+            value_color: '#000000',
             max_value: 100,
+            height: 16,
             use_gradient: true,
             gradient_mode: 'interpolate',
             color: '#52b6ca',
@@ -36,15 +38,25 @@ class PercentBarFieldTransformer {
         const p = Math.max(0, Math.min(100, percent));
 
         if (p <= 20) {
-            return '#ff0000';
+            return '#cf3939';
         } else if (p <= 40) {
             return '#ff8c00';
         } else if (p <= 60) {
-            return '#ffe600';
+            return '#f8d200';
         } else if (p <= 80) {
             return '#80ff00';
         } else {
-            return '#00c800';
+            return '#6ac86b';
+        }
+    }
+
+    getBorderRadius(height: number): number {
+        if (height >= 14) {
+            return 3;
+        } else if (height >= 10) {
+            return 2;
+        } else {
+            return 1;
         }
     }
 
@@ -62,6 +74,12 @@ class PercentBarFieldTransformer {
             : this.config.show_value;
 
         const valuePosition = this.getParam(parameters, 'value_position', this.config.value_position);
+        const valueColor = this.getParam(parameters, 'value_color', this.config.value_color);
+
+        const heightParam = this.getParam(parameters, 'height', null);
+        const height = heightParam !== null
+            ? parseInt(String(heightParam), 10)
+            : this.config.height;
 
         const useGradientParam = this.getParam(parameters, 'use_gradient', null);
         const useGradient = useGradientParam !== null
@@ -88,12 +106,20 @@ class PercentBarFieldTransformer {
             containerClasses.push(styles.animated);
         }
 
-        const showValueInside = showValue && valuePosition === 'inside';
+        const borderRadius = this.getBorderRadius(height);
+        const canShowValueInside = height >= 14;
+        const showValueInside = showValue && valuePosition === 'inside' && canShowValueInside;
         const showValueOutside = showValue && valuePosition === 'outside';
+
+        const barBackgroundStyle: Object = {
+            height: `${height}px`,
+            borderRadius: `${borderRadius}px`,
+        };
 
         const barFillClasses = [styles.barFill];
         const barFillStyle: Object = {
             width: `${percent}%`,
+            borderRadius: `${borderRadius}px`,
         };
 
         if (!useGradient) {
@@ -107,21 +133,31 @@ class PercentBarFieldTransformer {
             }
         }
 
+        const valueInsideStyle: Object = {
+            color: valueColor,
+        };
+
+        if (height < 16) {
+            valueInsideStyle.fontSize = `${Math.max(8, height - 4)}px`;
+        }
+
         return (
             <span className={containerClasses.join(' ')} title={title}>
-                <span className={styles.barBackground}>
+                <span className={styles.barBackground} style={barBackgroundStyle}>
                     <span
                         className={barFillClasses.join(' ')}
                         style={barFillStyle}
                     />
                     {showValueInside && (
-                        <span className={styles.valueInside}>
+                        <span className={styles.valueInside} style={valueInsideStyle}>
                             {displayValue}%
                         </span>
                     )}
                 </span>
                 {showValueOutside && (
-                    <span className={styles.valueOutside}>{displayValue}%</span>
+                    <span className={styles.valueOutside} style={{color: valueColor}}>
+                        {displayValue}%
+                    </span>
                 )}
             </span>
         );
