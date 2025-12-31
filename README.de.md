@@ -67,10 +67,12 @@ Zeigt Werte als farbigen Fortschrittsbalken an. Die Farbe wechselt von Rot (0%) 
 | 80-100% | 🟢 Grün     |
 
 **Features:**
-- **max_value**: Beliebige Skalen (0-100, 0-10, 0-5, etc.) - global oder per XML-Parameter
+- Konfiguration global oder per XML-Parameter
+- **max_value**: Beliebige Skalen (0-100, 0-10, 0-5, etc.)
 - **value_position**: Wert im Balken (`inside`), rechts daneben (`outside`) oder versteckt (`none`)
 - **gradient_mode**: Fließender Verlauf (`interpolate`) oder Farbstufen (`steps`)
 - **use_gradient**: Farbverlauf oder einzelne Farbe
+- **height**: Höhe der Bar einstellbar
 - **animate**: CSS-Animation beim Laden
 
 ![Percent Bar](docs/img/percent-bar.interpolate.height.de.png)

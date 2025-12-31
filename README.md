@@ -68,10 +68,12 @@ Displays values as a colored progress bar. The color transitions from red (0%) t
 | 80-100% | 🟢 Green       |
 
 **Features:**
-- **max_value**: Any scale (0-100, 0-10, 0-5, etc.) - globally or per XML parameter
+- Configuration globally or per XML parameter
+- **max_value**: Any scale (0-100, 0-10, 0-5, etc.)
 - **value_position**: Value inside the bar (`inside`), to the right (`outside`) or hidden (`none`)
 - **gradient_mode**: Smooth transition (`interpolate`) or color bands (`steps`)
 - **use_gradient**: Gradient colors or single color
+- **height**: Height can be defined
 - **animate**: CSS animation on load
 
 ![Percent Bar](docs/img/percent-bar.interpolate.height.de.png)
