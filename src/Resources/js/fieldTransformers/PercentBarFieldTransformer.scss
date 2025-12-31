@@ -1,14 +1,5 @@
 @import 'sulu-admin-bundle/containers/Application/colors.scss';
 
-/*
- * Color reference for gradient (defined in JS)
- * 0%:   Pure red (#ff0000)
- * 25%:  Vibrant orange (#ff8c00)
- * 50%:  Bright yellow (#ffe600)
- * 75%:  Lime green (#80ff00)
- * 100%: Vibrant green (#00c800)
- */
-
 @keyframes fillBar {
     from {
         width: 0;
@@ -32,20 +23,31 @@
     overflow: hidden;
     min-width: 60px;
     position: relative;
-    border: 1px solid $dustyGray;
 }
 
 .barFill {
     height: 100%;
-    border-radius: 2px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    transition: width 0.3s ease;
+    border-radius: 3px;
+    background-position: left center;
+    display: block;
 }
 
 .animated .barFill {
     animation: fillBar 0.8s ease-out;
+}
+
+.gradientSmooth {
+    background-image: linear-gradient(
+                    90deg,
+                    #ff0000 0%,
+                    #ff8c00 20%,
+                    #ffe600 45%,
+                    #ffe600 55%,
+                    #80ff00 80%,
+                    #00c800 100%
+    );
+    background-position: left center;
+    background-repeat: no-repeat;
 }
 
 .valueInside {
@@ -57,10 +59,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
-    font-weight: 400;
-    color: $white;
+    font-size: 10px;
+    font-weight: 600;
+    color: $black;
     z-index: 1;
+    line-height: 1.1;
 }
 
 .valueOutside {

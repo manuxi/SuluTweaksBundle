@@ -16,6 +16,8 @@ Dieses Bundle funktioniert für Sulu 2.6 (wahrscheinlich auch mit früheren Vers
 
 ## Features
 
+![Features](docs/img/features.de.png)
+
 ### 🔴 Publish State Indicator
 
 Treppeneffekte in Listen sind unschön, und die Standard-Darstellung produziert eben diese.
@@ -70,8 +72,8 @@ Zeigt Werte als farbigen Fortschrittsbalken an. Die Farbe wechselt von Rot (0%) 
 - **use_gradient**: Farbverlauf oder einzelne Farbe
 - **animate**: CSS-Animation beim Laden
 
-![Percent Bar](docs/img/percent-bar.png)
-
+![Percent Bar](docs/img/percent-bar.interpolate.de.png)
+![Percent Bar](docs/img/percent-bar.steps.de.png)
 ---
 
 ## 👩🏻‍🏭 Installation

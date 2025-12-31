@@ -32,39 +32,6 @@ class PercentBarFieldTransformer {
         return param;
     }
 
-    getInterpolatedColor(percent: number): string {
-        const p = Math.max(0, Math.min(100, percent));
-
-        // Vibrant, fully saturated colors
-        const colors = [
-            {p: 0,   r: 255, g: 0,   b: 0},     // Pure red
-            {p: 25,  r: 255, g: 140, b: 0},     // Vibrant orange
-            {p: 50,  r: 255, g: 230, b: 0},     // Bright yellow
-            {p: 75,  r: 128, g: 255, b: 0},     // Lime green
-            {p: 100, r: 0,   g: 200, b: 0},     // Vibrant green
-        ];
-
-        let lower = colors[0];
-        let upper = colors[colors.length - 1];
-
-        for (let i = 0; i < colors.length - 1; i++) {
-            if (p >= colors[i].p && p <= colors[i + 1].p) {
-                lower = colors[i];
-                upper = colors[i + 1];
-                break;
-            }
-        }
-
-        const range = upper.p - lower.p;
-        const t = range > 0 ? (p - lower.p) / range : 0;
-
-        const r = Math.round(lower.r + (upper.r - lower.r) * t);
-        const g = Math.round(lower.g + (upper.g - lower.g) * t);
-        const b = Math.round(lower.b + (upper.b - lower.b) * t);
-
-        return `rgb(${r}, ${g}, ${b})`;
-    }
-
     getSteppedColor(percent: number): string {
         const p = Math.max(0, Math.min(100, percent));
 
@@ -114,13 +81,6 @@ class PercentBarFieldTransformer {
         const percent = Math.max(0, Math.min(100, (rawValue / maxValue) * 100));
         const displayValue = Math.round(percent);
 
-        let barColor = singleColor;
-        if (useGradient) {
-            barColor = gradientMode === 'steps'
-                ? this.getSteppedColor(percent)
-                : this.getInterpolatedColor(percent);
-        }
-
         const title = `${rawValue}/${maxValue} (${displayValue}%)`;
 
         const containerClasses = [styles.container];
@@ -131,15 +91,28 @@ class PercentBarFieldTransformer {
         const showValueInside = showValue && valuePosition === 'inside';
         const showValueOutside = showValue && valuePosition === 'outside';
 
+        const barFillClasses = [styles.barFill];
+        const barFillStyle: Object = {
+            width: `${percent}%`,
+        };
+
+        if (!useGradient) {
+            barFillStyle.backgroundColor = singleColor;
+        } else if (gradientMode === 'steps') {
+            barFillStyle.backgroundColor = this.getSteppedColor(percent);
+        } else {
+            barFillClasses.push(styles.gradientSmooth);
+            if (percent > 0) {
+                barFillStyle.backgroundSize = `${(100 / percent) * 100}% 100%`;
+            }
+        }
+
         return (
             <span className={containerClasses.join(' ')} title={title}>
                 <span className={styles.barBackground}>
                     <span
-                        className={styles.barFill}
-                        style={{
-                            width: `${percent}%`,
-                            backgroundColor: barColor,
-                        }}
+                        className={barFillClasses.join(' ')}
+                        style={barFillStyle}
                     />
                     {showValueInside && (
                         <span className={styles.valueInside}>

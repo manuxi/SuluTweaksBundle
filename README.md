@@ -72,7 +72,8 @@ Displays values as a colored progress bar. The color transitions from red (0%) t
 - **use_gradient**: Gradient colors or single color
 - **animate**: CSS animation on load
 
-![Percent Bar](docs/img/percent-bar.png)
+![Percent Bar](docs/img/percent-bar.interpolate.de.png)
+![Percent Bar](docs/img/percent-bar.steps.de.png)
 
 ---
 
