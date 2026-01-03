@@ -1,31 +1,43 @@
 @import 'sulu-admin-bundle/containers/Application/colors.scss';
 
-$orange: #ffc107;
+$starColor: #ffc107;
+$starEmptyColor: $silverChalice;
 
 .container {
     display: inline-flex;
     align-items: center;
-    gap: 2px;
+    gap: 6px;
     cursor: default;
+}
+
+.starsWrapper {
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+}
+
+.starIcon {
     font-size: 16px;
-    margin-bottom: 2px;
+    letter-spacing: 1px;
 }
 
-.filled {
-    color: $orange;
+.starsBackground {
+    display: inline-block;
+    color: $starEmptyColor;
+    white-space: nowrap;
 }
 
-.half {
-    color: $orange;
-}
-
-.empty {
-    color: $silverChalice;
+.starsForeground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    color: $starColor;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .value {
-    margin-left: 6px;
     color: $dustyGray;
     font-size: 12px;
-    margin-bottom: -2px;
 }

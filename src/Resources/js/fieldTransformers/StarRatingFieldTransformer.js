@@ -19,7 +19,6 @@ class StarRatingFieldTransformer {
             return defaultValue;
         }
 
-        // Sulu can pass params as {name: {value: x}} or {name: x}
         const param = parameters[name];
         if (typeof param === 'object' && param !== null && 'value' in param) {
             return param.value;
@@ -32,7 +31,6 @@ class StarRatingFieldTransformer {
         const rating = value ? parseInt(String(value), 10) : 0;
         const styles = starRatingFieldTransformerStyles || {};
 
-        // Get parameters with fallback to config
         const maxValueParam = this.getParam(parameters, 'max_value', null);
         const maxValue = maxValueParam !== null
             ? parseInt(String(maxValueParam), 10)
@@ -44,49 +42,25 @@ class StarRatingFieldTransformer {
             : this.config.show_value;
 
         const displayStars = 5;
-        const stars = [];
         const title = `${rating}/${maxValue}`;
+        const fillPercent = maxValue > 0 ? (rating / maxValue) * 100 : 0;
 
-        if (maxValue === 10) {
-            // 10-point scale: use half-star increments
-            for (let i = 1; i <= displayStars; i++) {
-                const starValue = i * 2;
-                const halfStarValue = starValue - 1;
-                let starClass = styles.empty;
-                let starChar = '☆';
+        const backgroundStars = [];
+        const foregroundStars = [];
 
-                if (rating >= starValue) {
-                    starClass = styles.filled;
-                    starChar = '★';
-                } else if (rating >= halfStarValue) {
-                    starClass = styles.half;
-                    starChar = '⯪';
-                }
-
-                stars.push(
-                    <span key={i} className={starClass}>
-                        {starChar}
-                    </span>
-                );
-            }
-        } else {
-            // 5-point scale (or other): simple full stars
-            for (let i = 1; i <= displayStars; i++) {
-                const isFilled = i <= rating;
-                stars.push(
-                    <span
-                        key={i}
-                        className={isFilled ? styles.filled : styles.empty}
-                    >
-                        {isFilled ? '★' : '☆'}
-                    </span>
-                );
-            }
+        for (let i = 1; i <= displayStars; i++) {
+            backgroundStars.push(<span key={i} className={styles.starIcon}>★</span>);
+            foregroundStars.push(<span key={i} className={styles.starIcon}>★</span>);
         }
 
         return (
             <span className={styles.container} title={title}>
-                {stars}
+                <span className={styles.starsWrapper}>
+                    <span className={styles.starsBackground}>{backgroundStars}</span>
+                    <span className={styles.starsForeground} style={{width: `${fillPercent}%`}}>
+                        {foregroundStars}
+                    </span>
+                </span>
                 {showValue && (
                     <span className={styles.value}>({title})</span>
                 )}
