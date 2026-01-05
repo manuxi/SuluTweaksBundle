@@ -15,7 +15,6 @@ Dieses Bundle funktioniert für Sulu 2.6 (wahrscheinlich auch mit früheren Vers
 ---
 
 ## Features
-
 ![Features](docs/img/features.de.png)
 
 
