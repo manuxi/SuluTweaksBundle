@@ -17,15 +17,26 @@ class PublishStateFieldTransformer {
 
     transform(value: *, parameters: {[string]: any}, context: Object): Node {
         const styles = publishStateFieldTransformerStyles;
-        const mobxValues = context?.$mobx?.values;
 
-        // Get values from context
-        const publishedState = mobxValues?.publishedState?.value ?? context?.publishedState ?? value;
-        const livePublished = mobxValues?.livePublished?.value ?? context?.livePublished;
-        const workflowPlace = mobxValues?.workflowPlace?.value ?? context?.workflowPlace;
-        const hasGhostLocale = !!(mobxValues?.ghostLocale?.value ?? context?.ghostLocale);
+        let publishedState = value;
+        let livePublished = context?.livePublished;
+        let workflowPlace = context?.workflowPlace;
+        let ghostLocale = context?.ghostLocale;
 
-        // Determine status
+        if (value && typeof value === 'object' && 'publishedState' in value) {
+            publishedState = value.publishedState;
+            livePublished = value.livePublished;
+            workflowPlace = value.workflowPlace;
+        } else {
+            const mobxValues = context?.$mobx?.values;
+            publishedState = mobxValues?.publishedState?.value ?? context?.publishedState ?? value;
+            livePublished = mobxValues?.livePublished?.value ?? context?.livePublished;
+            workflowPlace = mobxValues?.workflowPlace?.value ?? context?.workflowPlace;
+            ghostLocale = mobxValues?.ghostLocale?.value ?? context?.ghostLocale;
+        }
+
+        const hasGhostLocale = !!ghostLocale;
+
         const isPublished = publishedState === true || publishedState === 'published' || workflowPlace === 'published';
         const isDraft = livePublished && (publishedState === false || publishedState === 'draft' || workflowPlace === 'draft');
 
@@ -37,7 +48,6 @@ class PublishStateFieldTransformer {
         }
         const label = translate(labelKey);
 
-        // Offset handling
         const needsOffset = this.config.enable_offset && !hasGhostLocale;
         const containerClass = needsOffset
             ? `${styles.stateIndicator} ${styles.withOffset}`

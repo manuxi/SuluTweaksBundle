@@ -9,7 +9,8 @@
         "doctrine/doctrine-bundle": "^2.13",
         "sulu/sulu": "^2.6 || ^3.0",
         "symfony/intl": "^6.2 | ^7.0",
-        "symfony/translation": "^6.2 | ^7.0"
+        "symfony/translation": "^6.2 | ^7.0",
+        "sulu/sulu-rector": "^2.0"
     },
     "require-dev": {
         "jackalope/jackalope-doctrine-dbal": "^1.3.4",
